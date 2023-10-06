@@ -37,8 +37,8 @@ namespace TestingIdentityApi.Controllers
         }
 
 
-        [HttpPost("bankpayment", Name = "bankpayment")]
-        public async Task<IActionResult> BankPayment()
+        [HttpPost("paystackpayment", Name = "paystackpayment")]
+        public async Task<IActionResult> PaystackPayment()
         {
             var charge = new TransactionInitializeRequest
             {
