@@ -47,7 +47,7 @@ namespace TestingIdentityApi.Controllers
                 Currency = "NGN",
                 Email = "jsonosii097@gmail.com",
                 Bearer = "johnson osii",
-                CallbackUrl = "https://Localhost:7085/api/Flutter/VerifyPayment",
+                CallbackUrl = "https://Localhost:7085/api/Flutter/verifypayment",
                 TransactionCharge = 15
             };
 
@@ -61,7 +61,7 @@ namespace TestingIdentityApi.Controllers
         }
 
 
-        [HttpGet("VerifyPayment", Name = "VerifyPayment")]
+        [HttpGet("verifypayment", Name = "verifypayment")]
         public async Task<IActionResult> VerifyPayment([FromQuery] string reference)
         {
             PayStackApi payStack = new PayStackApi(paystackPbKey);
