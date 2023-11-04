@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+
+  redis:
+       image: redis:latest
+       ports:
+         - "6379:6379"
+
+  testingidentityapi:
+    image: ${DOCKER_REGISTRY-}testingidentityapi
+    depends_on:
+        - redis
+    build:
+      context: .
+      dockerfile: TestingIdentityApi/Dockerfile
+

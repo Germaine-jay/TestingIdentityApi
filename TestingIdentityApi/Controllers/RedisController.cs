@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using TestingIdentityApi.Services;
 
 namespace TestingIdentityApi.Controllers
@@ -19,47 +18,55 @@ namespace TestingIdentityApi.Controllers
 
 
         [HttpGet]
-        public async Task<Cart> GetCartAsync(string UserId)
+        public async Task<IActionResult> GetCartAsync(string UserId)
         {
-            var userId = Guid.NewGuid().ToString();
-            if (UserId == null)
-            {
-                return await _redisService.GetCartAsync(userId);
-            }
-            return await _redisService.GetCartAsync(UserId);
+            //var userId = Guid.NewGuid().ToString();
+
+            var res = await _redisService.GetCartAsync(UserId);
+            if (res != null)
+                return Ok(res);
+
+            //var resp = await _redisService.GetCartAsync(UserId);
+            return BadRequest(res);
         }
 
 
         [HttpPost]
-        public async Task AddItemToCartAsync([FromBody] CartItem cartItem)
+        public async Task<IActionResult> AddItemToCartAsync([FromBody] CartItem cartItem)
         {
-            var total = 0;
             var cart = await _redisService.GetCartAsync("00000000-0000-0000-0000-000000000000");
-            
-                cart.CartItems.Add(cartItem);
-                await _redisService.SaveCartAsync(cart);
-            Console.WriteLine(cart.Id);
-            foreach(var item in cart.CartItems)
+            var res = await _redisService.SaveCartAsync(cart, cartItem);
+
+            if (res)
             {
-                total += (item.Quantity * item.Price);
-                cart.Total = total;
-                await _redisService.SaveCartAsync(cart);
+                return Ok(cartItem);
             }
-                 BadRequest(cartItem.ProductId);
+
+            return BadRequest(res);
         }
 
 
         [HttpPost("Delete")]
-        public async Task DeleteCartAsync(string userid)
+        public async Task<IActionResult> DeleteCartAsync(string userid)
         {
-             await _redisService.ClearFromCache(userid);
+            var res = await _redisService.ClearFromCache(userid);
+            if(res)
+                return Ok(res);
+
+            return BadRequest(res);
         }
 
 
         [HttpPost("remove")]
-        public async Task DeleteCartAsync(string productId, string userid)
+        public async Task<IActionResult> DeleteCartItemAsync(string productId, string userid)
         {
-             await _redisService.RemoveCartItemAsync(productId, userid);
+            var res = await _redisService.RemoveCartItemAsync(productId, userid);
+            if (res)
+            {
+                return Ok(res);
+            }
+
+            return BadRequest(res);
         }
     }
 }

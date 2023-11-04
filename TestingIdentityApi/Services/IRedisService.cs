@@ -2,11 +2,11 @@
 {
     public interface IRedisService
     {
-        Task SaveCartAsync(Cart cart);
+        Task<bool> SaveCartAsync(Cart cart, CartItem? cartItem);
         Task<Cart> GetCartAsync(string userId);
 
-        Task ClearFromCache(string key);
+        Task<bool> ClearFromCache(string key);
 
-        Task RemoveCartItemAsync(string productId, string userId);
+        Task<bool> RemoveCartItemAsync(string productId, string userId);
     }
 }

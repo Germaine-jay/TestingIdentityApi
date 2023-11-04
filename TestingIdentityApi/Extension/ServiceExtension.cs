@@ -17,6 +17,7 @@ namespace TestingIdentityApi.Extension
             configurationOptions.Password = config["RedisConfig:Password"];
             configurationOptions.AbortOnConnectFail = false;
             configurationOptions.EndPoints.Add(config["RedisConfig:Host"], 6379);
+           
 
             services.AddStackExchangeRedisCache(options =>
             {
@@ -26,14 +27,17 @@ namespace TestingIdentityApi.Extension
 
             services.AddSingleton<IConnectionMultiplexer>((x) =>
             {
-                var connectionMultiplexer = ConnectionMultiplexer.Connect(new ConfigurationOptions
+                /*var connectionMultiplexer = ConnectionMultiplexer.Connect(new ConfigurationOptions
                 {
                     Password = configurationOptions.Password,
                     EndPoints = { configurationOptions.EndPoints[0] },
                     AbortOnConnectFail = false,
                     AllowAdmin = false,
                     ClientName = config["RedisConfig:InstanceId"]
-                });
+                });*/
+
+
+                var connectionMultiplexer = ConnectionMultiplexer.Connect("redis");
                 return connectionMultiplexer;
             });
             services.AddTransient<IRedisService, RedisService>();
