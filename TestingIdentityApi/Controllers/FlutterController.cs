@@ -90,11 +90,11 @@ namespace TestingIdentityApi.Controllers
         public async Task<IActionResult> FlutterPayment()
         {
             var say = new FlutterwaveApi("FLWSECK_TEST-689f4305ab8e742e8c2008a985a5c647-X");
-
-            var result = say.Payments.InitiatePayment(reference, 1000, "https://Localhost:7085/api/Flutter/FlutterVerify", "johnson", "jermaine.jay00@gmail.com", "0913444567", "cloth", "buy cloths", Currency.NigerianNaira.ToString());
+            var k = say.Miscellaneous.VerifyBankAccount("0690000032", "044");
+            /**/var result = say.Payments.InitiatePayment(reference, 1000, "https://Localhost:7085/api/Flutter/FlutterVerify", "johnson", "jermaine.jay00@gmail.com", "0913444567", "cloth", "buy cloths", Currency.NigerianNaira.ToString());
             var response = $"{result}/n {reference}";
-            Console.WriteLine(response);
-            return Ok(result);
+            Console.WriteLine(k);
+            return Ok(k);
         }
 
 
