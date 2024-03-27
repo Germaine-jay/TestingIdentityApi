@@ -2,11 +2,11 @@
 
 namespace TestingIdentityApi.Services
 {
-    public static  class FlutterwaveApiClient
+    public static class FlutterwaveApiClient
     {
         private static string PbKey = "FLWSECK_TEST-SANDBOXDEMOKEY-X";
         private static string ScKey = "pass your secret key here";
-        //public static FlutterwaveApiClient() { }
+
 
         public static async Task<object> BankPayment()
         {
